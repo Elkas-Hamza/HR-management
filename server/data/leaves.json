@@ -1,0 +1,38 @@
+[
+  {
+    "employeeId": 2,
+    "startDate": "2024-03-14",
+    "endDate": "2024-03-17",
+    "type": "Sick",
+    "status": "Approved",
+    "reason": "Family vacation",
+    "id": 1
+  },
+  {
+    "employeeId": 2,
+    "startDate": "2024-03-20",
+    "endDate": "2024-03-21",
+    "type": "Sick",
+    "status": "Approved",
+    "reason": "Medical appointment",
+    "id": 2
+  },
+  {
+    "id": 3,
+    "employeeId": 3,
+    "startDate": "2024-03-25",
+    "endDate": "2024-03-26",
+    "type": "Personal",
+    "status": "Rejected",
+    "reason": "Personal matters"
+  },
+  {
+    "id": "4",
+    "employeeId": 3,
+    "startDate": "2026-01-08",
+    "endDate": "2026-01-09",
+    "type": "Sick",
+    "status": "Approved",
+    "reason": "ljhj"
+  }
+]

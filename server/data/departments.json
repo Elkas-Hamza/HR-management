@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Human Resources",
+    "manager": "Sarah Johnson",
+    "description": "Handles employee relations, recruitment, and benefits"
+  },
+  {
+    "id": 2,
+    "name": "Information Technology",
+    "manager": "Michael Chen",
+    "description": "Manages technology infrastructure and software development"
+  },
+  {
+    "id": 3,
+    "name": "Finance",
+    "manager": "David Williams",
+    "description": "Oversees financial planning, accounting, and reporting"
+  },
+  {
+    "id": 4,
+    "name": "Marketing",
+    "manager": "Emily Brown",
+    "description": "Responsible for brand management and customer engagement"
+  },
+  {
+    "id": 5,
+    "name": "Sales",
+    "manager": "Robert Garcia",
+    "description": "Drives revenue through customer acquisition and retention"
+  },
+  {
+    "id": 6,
+    "name": "Operations",
+    "manager": "Jennifer Martinez",
+    "description": "Ensures efficient day-to-day business operations"
+  }
+]
