@@ -1,0 +1,105 @@
+{
+  "app": {
+    "title": "MyHR - إدارة الموارد البشرية"
+  },
+  "nav": {
+    "dashboard": "لوحة القيادة",
+    "employees": "الموظفون",
+    "departments": "الأقسام",
+    "salaries": "الرواتب",
+    "attendance": "الحضور",
+    "leaves": "طلبات الإجازة",
+    "logout": "تسجيل الخروج"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "loginButton": "دخول",
+    "invalidCredentials": "بيانات اعتماد غير صالحة"
+  },
+  "common": {
+    "add": "إضافة",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "search": "بحث",
+    "filter": "تصفية",
+    "export": "تصدير CSV",
+    "actions": "إجراءات",
+    "view": "عرض",
+    "details": "التفاصيل",
+    "confirmDelete": "هل أنت متأكد أنك تريد حذف هذا العنصر؟",
+    "yes": "نعم",
+    "no": "لا"
+  },
+  "dashboard": {
+    "title": "لوحة القيادة",
+    "totalEmployees": "إجمالي الموظفين",
+    "activeEmployees": "الموظفون النشطون",
+    "pendingLeaves": "الإجازات المعلقة",
+    "totalDepartments": "إجمالي الأقسام",
+    "employeesPerDept": "الموظفون حسب القسم",
+    "salaryDistribution": "توزيع الرواتب",
+    "attendanceRate": "معدل الحضور",
+    "monthlyHires": "التوظيفات الشهرية",
+    "absenceTrend": "اتجاه الغياب"
+  },
+  "employees": {
+    "title": "الموظفون",
+    "addEmployee": "إضافة موظف",
+    "editEmployee": "تعديل الموظف",
+    "firstName": "الاسم الأول",
+    "lastName": "اسم العائلة",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "department": "القسم",
+    "hireDate": "تاريخ التوظيف",
+    "status": "الحالة",
+    "active": "نشط",
+    "inactive": "غير نشط"
+  },
+  "departments": {
+    "title": "الأقسام",
+    "addDepartment": "إضافة قسم",
+    "name": "اسم القسم",
+    "manager": "المدير",
+    "description": "الوصف"
+  },
+  "salaries": {
+    "title": "الرواتب",
+    "addSalary": "إضافة راتب",
+    "employee": "الموظف",
+    "baseSalary": "الراتب الأساسي",
+    "bonus": "المكافأة",
+    "total": "الإجمالي",
+    "month": "الشهر"
+  },
+  "attendance": {
+    "title": "الحضور",
+    "addRecord": "إضافة سجل",
+    "employee": "الموظف",
+    "date": "التاريخ",
+    "status": "الحالة",
+    "present": "حاضر",
+    "absent": "غائب",
+    "late": "متأخر"
+  },
+  "leaves": {
+    "title": "طلبات الإجازة",
+    "addRequest": "إضافة طلب",
+    "employee": "الموظف",
+    "startDate": "تاريخ البداية",
+    "endDate": "تاريخ النهاية",
+    "type": "النوع",
+    "status": "الحالة",
+    "reason": "السبب",
+    "pending": "قيد الانتظار",
+    "approved": "موافق عليه",
+    "rejected": "مرفوض",
+    "vacation": "إجازة",
+    "sick": "مرضية",
+    "personal": "شخصية"
+  }
+}

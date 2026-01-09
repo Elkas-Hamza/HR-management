@@ -1,0 +1,105 @@
+{
+  "app": {
+    "title": "MyHR - Gestion RH"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "employees": "Employés",
+    "departments": "Départements",
+    "salaries": "Salaires",
+    "attendance": "Présence",
+    "leaves": "Demandes de congé",
+    "logout": "Déconnexion"
+  },
+  "auth": {
+    "login": "Connexion",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "loginButton": "Se connecter",
+    "invalidCredentials": "Identifiants invalides"
+  },
+  "common": {
+    "add": "Ajouter",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "export": "Exporter CSV",
+    "actions": "Actions",
+    "view": "Voir",
+    "details": "Détails",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet élément?",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "totalEmployees": "Total Employés",
+    "activeEmployees": "Employés Actifs",
+    "pendingLeaves": "Congés en Attente",
+    "totalDepartments": "Total Départements",
+    "employeesPerDept": "Employés par Département",
+    "salaryDistribution": "Distribution des Salaires",
+    "attendanceRate": "Taux de Présence",
+    "monthlyHires": "Embauches Mensuelles",
+    "absenceTrend": "Tendance des Absences"
+  },
+  "employees": {
+    "title": "Employés",
+    "addEmployee": "Ajouter un Employé",
+    "editEmployee": "Modifier l'Employé",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "department": "Département",
+    "hireDate": "Date d'Embauche",
+    "status": "Statut",
+    "active": "Actif",
+    "inactive": "Inactif"
+  },
+  "departments": {
+    "title": "Départements",
+    "addDepartment": "Ajouter un Département",
+    "name": "Nom du Département",
+    "manager": "Responsable",
+    "description": "Description"
+  },
+  "salaries": {
+    "title": "Salaires",
+    "addSalary": "Ajouter un Salaire",
+    "employee": "Employé",
+    "baseSalary": "Salaire de Base",
+    "bonus": "Prime",
+    "total": "Total",
+    "month": "Mois"
+  },
+  "attendance": {
+    "title": "Présence",
+    "addRecord": "Ajouter un Enregistrement",
+    "employee": "Employé",
+    "date": "Date",
+    "status": "Statut",
+    "present": "Présent",
+    "absent": "Absent",
+    "late": "En Retard"
+  },
+  "leaves": {
+    "title": "Demandes de Congé",
+    "addRequest": "Ajouter une Demande",
+    "employee": "Employé",
+    "startDate": "Date de Début",
+    "endDate": "Date de Fin",
+    "type": "Type",
+    "status": "Statut",
+    "reason": "Raison",
+    "pending": "En Attente",
+    "approved": "Approuvé",
+    "rejected": "Rejeté",
+    "vacation": "Vacances",
+    "sick": "Maladie",
+    "personal": "Personnel"
+  }
+}
