@@ -1,329 +1,100 @@
-const axios = require('axios');
-const API_CONFIG = require('../config/apiConfig');
 const fs = require('fs').promises;
 const path = require('path');
 
-class ExternalApiService {
-  constructor() {
-    this.axiosInstance = axios.create({
-      timeout: API_CONFIG.REQUEST_TIMEOUT,
-      headers: API_CONFIG.DEFAULT_HEADERS
-    });
-
-    this.axiosInstance.interceptors.request.use(
-      (config) => {
-        if (!config.url.includes('localhost')) {
-          console.log(` ${config.method.toUpperCase()} ${config.url}`);
-        }
-        return config;
-      },
-      (error) => Promise.reject(error)
-    );
-
-    this.axiosInstance.interceptors.response.use(
-      (response) => response,
-      (error) => {
-        if (!API_CONFIG.USE_LOCAL_FALLBACK || error.config?.fallbackFile === undefined) {
-          console.error('External API Error:', error.response?.data || error.message);
-        }
-        return Promise.reject(error);
-      }
-    );
+class LocalDataService {
+  async load(filename) {
+    const filePath = path.resolve(__dirname, '..', 'data', filename);
+    const data = await fs.readFile(filePath, 'utf8');
+    return JSON.parse(data);
   }
 
-  async loadLocalData(filename) {
-    try {
-      const filePath = path.resolve(__dirname, '..', 'data', filename);
-      const data = await fs.readFile(filePath, 'utf8');
-      console.log(` Loaded local data from: ${filename}`);
-      return JSON.parse(data);
-    } catch (error) {
-      console.error(` Error loading local data from ${filename}:`, error.message);
-      console.error(`   Expected path: ${path.resolve(__dirname, '..', 'data', filename)}`);
-      return [];
-    }
+  async save(filename, data) {
+    const filePath = path.resolve(__dirname, '..', 'data', filename);
+    await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
   }
 
-  async saveLocalData(filename, data) {
-    try {
-      const filePath = path.resolve(__dirname, '..', 'data', filename);
-      await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
-      console.log(` Saved local data to: ${filename}`);
-      return true;
-    } catch (error) {
-      console.error(` Error saving local data to ${filename}:`, error.message);
-      throw error;
-    }
+  async getAll(filename) {
+    return this.load(filename);
   }
 
-  async fetchData(url, params = {}, fallbackFile = null) {
-    if (API_CONFIG.USE_LOCAL_DATA_ONLY && fallbackFile) {
-      return await this.loadLocalData(fallbackFile);
-    }
-    
-    try {
-      const response = await this.axiosInstance.get(url, { params });
-      return response.data;
-    } catch (error) {
-      if (API_CONFIG.USE_LOCAL_FALLBACK && fallbackFile) {
-        console.log(`  External API unavailable, using local data: ${fallbackFile}`);
-        return await this.loadLocalData(fallbackFile);
-      }
-      
-      console.error(`Error fetching data from ${url}:`, error.message);
-      throw new Error(`Failed to fetch data: ${error.response?.status || error.message}`);
-    }
+  async getById(filename, id) {
+    const data = await this.load(filename);
+    return data.find(item => item.id.toString() === id.toString()) || null;
   }
 
-  async fetchById(url, id, fallbackFile = null) {
-    if (API_CONFIG.USE_LOCAL_DATA_ONLY && fallbackFile) {
-      try {
-        const allData = await this.loadLocalData(fallbackFile);
-        const item = allData.find(item => item.id.toString() === id.toString());
-        return item || null;
-      } catch (error) {
-        console.error(`Error fetching by ID from ${fallbackFile}:`, error.message);
-        return null;
-      }
-    }
-
-    try {
-      const response = await this.axiosInstance.get(`${url}/${id}`);
-      return response.data;
-    } catch (error) {
-      if (error.response?.status === 404) {
-        return null;
-      }
-      console.error(`Error fetching data by ID from ${url}/${id}:`, error.message);
-      throw new Error(`Failed to fetch data: ${error.response?.status || error.message}`);
-    }
+  async create(filename, newData) {
+    const data = await this.load(filename);
+    const newId = data.length > 0 ? Math.max(...data.map(item => parseInt(item.id) || 0)) + 1 : 1;
+    const newItem = { id: newId.toString(), ...newData };
+    data.push(newItem);
+    await this.save(filename, data);
+    return newItem;
   }
 
-  async createData(url, data, fallbackFile = null) {
-    if (API_CONFIG.USE_LOCAL_DATA_ONLY && fallbackFile) {
-      try {
-        const allData = await this.loadLocalData(fallbackFile);
-        const newId = allData.length > 0 ? Math.max(...allData.map(item => parseInt(item.id) || 0)) + 1 : 1;
-        const newItem = { id: newId.toString(), ...data };
-        allData.push(newItem);
-        await this.saveLocalData(fallbackFile, allData);
-        return newItem;
-      } catch (error) {
-        console.error(`Error creating data locally in ${fallbackFile}:`, error.message);
-        throw new Error(`Failed to create data locally: ${error.message}`);
-      }
-    }
-
-    try {
-      const response = await this.axiosInstance.post(url, data);
-      return response.data;
-    } catch (error) {
-      console.error(`Error creating data at ${url}:`, error.message);
-      throw new Error(`Failed to create data: ${error.response?.status || error.message}`);
-    }
+  async update(filename, id, updatedData) {
+    const data = await this.load(filename);
+    const index = data.findIndex(item => item.id.toString() === id.toString());
+    if (index === -1) return null;
+    data[index] = { ...data[index], ...updatedData, id: data[index].id };
+    await this.save(filename, data);
+    return data[index];
   }
 
-  async updateData(url, id, data, fallbackFile = null) {
-    if (API_CONFIG.USE_LOCAL_DATA_ONLY && fallbackFile) {
-      try {
-        const allData = await this.loadLocalData(fallbackFile);
-        const index = allData.findIndex(item => item.id.toString() === id.toString());
-        if (index === -1) {
-          return null;
-        }
-        allData[index] = { ...allData[index], ...data, id: allData[index].id };
-        await this.saveLocalData(fallbackFile, allData);
-        return allData[index];
-      } catch (error) {
-        console.error(`Error updating data locally in ${fallbackFile}:`, error.message);
-        throw new Error(`Failed to update data locally: ${error.message}`);
-      }
-    }
-
-    try {
-      const response = await this.axiosInstance.put(`${url}/${id}`, data);
-      return response.data;
-    } catch (error) {
-      console.error(`Error updating data at ${url}/${id}:`, error.message);
-      throw new Error(`Failed to update data: ${error.response?.status || error.message}`);
-    }
+  async delete(filename, id) {
+    const data = await this.load(filename);
+    const filtered = data.filter(item => item.id.toString() !== id.toString());
+    await this.save(filename, filtered);
+    return { success: true };
   }
 
-  async patchData(url, id, data, fallbackFile = null) {
-    if (API_CONFIG.USE_LOCAL_DATA_ONLY && fallbackFile) {
-      try {
-        const allData = await this.loadLocalData(fallbackFile);
-        const index = allData.findIndex(item => item.id.toString() === id.toString());
-        if (index === -1) {
-          return null;
-        }
-        allData[index] = { ...allData[index], ...data };
-        await this.saveLocalData(fallbackFile, allData);
-        return allData[index];
-      } catch (error) {
-        console.error(`Error patching data locally in ${fallbackFile}:`, error.message);
-        throw new Error(`Failed to patch data locally: ${error.message}`);
-      }
-    }
+  // Employees
+  getEmployees() { return this.getAll('employees.json'); }
+  getEmployeeById(id) { return this.getById('employees.json', id); }
+  createEmployee(data) { return this.create('employees.json', data); }
+  updateEmployee(id, data) { return this.update('employees.json', id, data); }
+  deleteEmployee(id) { return this.delete('employees.json', id); }
 
-    try {
-      const response = await this.axiosInstance.patch(`${url}/${id}`, data);
-      return response.data;
-    } catch (error) {
-      console.error(`Error patching data at ${url}/${id}:`, error.message);
-      throw new Error(`Failed to patch data: ${error.response?.status || error.message}`);
-    }
-  }
+  // Departments
+  getDepartments() { return this.getAll('departments.json'); }
+  getDepartmentById(id) { return this.getById('departments.json', id); }
+  createDepartment(data) { return this.create('departments.json', data); }
+  updateDepartment(id, data) { return this.update('departments.json', id, data); }
+  deleteDepartment(id) { return this.delete('departments.json', id); }
 
-  async deleteData(url, id, fallbackFile = null) {
-    if (API_CONFIG.USE_LOCAL_DATA_ONLY && fallbackFile) {
-      try {
-        const allData = await this.loadLocalData(fallbackFile);
-        const filteredData = allData.filter(item => item.id.toString() !== id.toString());
-        await this.saveLocalData(fallbackFile, filteredData);
-        return { success: true };
-      } catch (error) {
-        console.error(`Error deleting data locally from ${fallbackFile}:`, error.message);
-        throw new Error(`Failed to delete data locally: ${error.message}`);
-      }
-    }
-
-    try {
-      const response = await this.axiosInstance.delete(`${url}/${id}`);
-      return response.data;
-    } catch (error) {
-      console.error(`Error deleting data at ${url}/${id}:`, error.message);
-      throw new Error(`Failed to delete data: ${error.response?.status || error.message}`);
-    }
-  }
-
-  // === EMPLOYEES ===
-  async getEmployees() {
-    return this.fetchData(API_CONFIG.EMPLOYEES_API, {}, 'employees.json');
-  }
-
-  async getEmployeeById(id) {
-    return this.fetchById(API_CONFIG.EMPLOYEES_API, id, 'employees.json');
-  }
-
-  async createEmployee(employeeData) {
-    return this.createData(API_CONFIG.EMPLOYEES_API, employeeData, 'employees.json');
-  }
-
-  async updateEmployee(id, employeeData) {
-    return this.updateData(API_CONFIG.EMPLOYEES_API, id, employeeData, 'employees.json');
-  }
-
-  async deleteEmployee(id) {
-    return this.deleteData(API_CONFIG.EMPLOYEES_API, id, 'employees.json');
-  }
-
-  // === DEPARTMENTS ===
-  async getDepartments() {
-    return this.fetchData(API_CONFIG.DEPARTMENTS_API, {}, 'departments.json');
-  }
-
-  async getDepartmentById(id) {
-    return this.fetchById(API_CONFIG.DEPARTMENTS_API, id, 'departments.json');
-  }
-
-  async createDepartment(departmentData) {
-    return this.createData(API_CONFIG.DEPARTMENTS_API, departmentData, 'departments.json');
-  }
-
-  async updateDepartment(id, departmentData) {
-    return this.updateData(API_CONFIG.DEPARTMENTS_API, id, departmentData, 'departments.json');
-  }
-
-  async deleteDepartment(id) {
-    return this.deleteData(API_CONFIG.DEPARTMENTS_API, id, 'departments.json');
-  }
-
-  // === SALARIES ===
-  async getSalaries() {
-    return this.fetchData(API_CONFIG.SALARIES_API, {}, 'salaries.json');
-  }
-
-  async getSalaryById(id) {
-    return this.fetchById(API_CONFIG.SALARIES_API, id, 'salaries.json');
-  }
-
+  // Salaries
+  getSalaries() { return this.getAll('salaries.json'); }
+  getSalaryById(id) { return this.getById('salaries.json', id); }
   async getSalariesByEmployeeId(employeeId) {
-    const allData = await this.fetchData(API_CONFIG.SALARIES_API, { employeeId }, 'salaries.json');
-    return allData.filter(item => item.employeeId?.toString() === employeeId.toString());
+    const data = await this.getAll('salaries.json');
+    return data.filter(item => item.employeeId?.toString() === employeeId.toString());
   }
+  createSalary(data) { return this.create('salaries.json', data); }
+  updateSalary(id, data) { return this.update('salaries.json', id, data); }
+  deleteSalary(id) { return this.delete('salaries.json', id); }
 
-  async createSalary(salaryData) {
-    return this.createData(API_CONFIG.SALARIES_API, salaryData, 'salaries.json');
-  }
-
-  async updateSalary(id, salaryData) {
-    return this.updateData(API_CONFIG.SALARIES_API, id, salaryData, 'salaries.json');
-  }
-
-  async deleteSalary(id) {
-    return this.deleteData(API_CONFIG.SALARIES_API, id, 'salaries.json');
-  }
-
-  // === ATTENDANCE ===
-  async getAttendance() {
-    return this.fetchData(API_CONFIG.ATTENDANCE_API, {}, 'attendance.json');
-  }
-
-  async getAttendanceById(id) {
-    return this.fetchById(API_CONFIG.ATTENDANCE_API, id, 'attendance.json');
-  }
-
+  // Attendance
+  getAttendance() { return this.getAll('attendance.json'); }
+  getAttendanceById(id) { return this.getById('attendance.json', id); }
   async getAttendanceByEmployeeId(employeeId) {
-    const allData = await this.fetchData(API_CONFIG.ATTENDANCE_API, { employeeId }, 'attendance.json');
-    return allData.filter(item => item.employeeId?.toString() === employeeId.toString());
+    const data = await this.getAll('attendance.json');
+    return data.filter(item => item.employeeId?.toString() === employeeId.toString());
   }
+  createAttendance(data) { return this.create('attendance.json', data); }
+  updateAttendance(id, data) { return this.update('attendance.json', id, data); }
+  deleteAttendance(id) { return this.delete('attendance.json', id); }
 
-  async createAttendance(attendanceData) {
-    return this.createData(API_CONFIG.ATTENDANCE_API, attendanceData, 'attendance.json');
-  }
-
-  async updateAttendance(id, attendanceData) {
-    return this.updateData(API_CONFIG.ATTENDANCE_API, id, attendanceData, 'attendance.json');
-  }
-
-  async deleteAttendance(id) {
-    return this.deleteData(API_CONFIG.ATTENDANCE_API, id, 'attendance.json');
-  }
-
-  // === LEAVES ===
-  async getLeaves() {
-    return this.fetchData(API_CONFIG.LEAVES_API, {}, 'leaves.json');
-  }
-
-  async getLeaveById(id) {
-    return this.fetchById(API_CONFIG.LEAVES_API, id, 'leaves.json');
-  }
-
+  // Leaves
+  getLeaves() { return this.getAll('leaves.json'); }
+  getLeaveById(id) { return this.getById('leaves.json', id); }
   async getLeavesByEmployeeId(employeeId) {
-    const allData = await this.fetchData(API_CONFIG.LEAVES_API, { employeeId }, 'leaves.json');
-    return allData.filter(item => item.employeeId?.toString() === employeeId.toString());
+    const data = await this.getAll('leaves.json');
+    return data.filter(item => item.employeeId?.toString() === employeeId.toString());
   }
-
-  async createLeave(leaveData) {
-    return this.createData(API_CONFIG.LEAVES_API, leaveData, 'leaves.json');
-  }
-
-  async updateLeave(id, leaveData) {
-    return this.updateData(API_CONFIG.LEAVES_API, id, leaveData, 'leaves.json');
-  }
-
-  async approveLeave(id) {
-    return this.patchData(API_CONFIG.LEAVES_API, id, { status: 'Approved' }, 'leaves.json');
-  }
-
-  async rejectLeave(id) {
-    return this.patchData(API_CONFIG.LEAVES_API, id, { status: 'Rejected' }, 'leaves.json');
-  }
-
-  async deleteLeave(id) {
-    return this.deleteData(API_CONFIG.LEAVES_API, id, 'leaves.json');
-  }
+  createLeave(data) { return this.create('leaves.json', data); }
+  updateLeave(id, data) { return this.update('leaves.json', id, data); }
+  approveLeave(id) { return this.update('leaves.json', id, { status: 'Approved' }); }
+  rejectLeave(id) { return this.update('leaves.json', id, { status: 'Rejected' }); }
+  deleteLeave(id) { return this.delete('leaves.json', id); }
 }
 
-module.exports = new ExternalApiService();
+module.exports = new LocalDataService();
