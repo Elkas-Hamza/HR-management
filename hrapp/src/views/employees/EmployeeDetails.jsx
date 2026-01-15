@@ -41,9 +41,6 @@ const EmployeeDetails = () => {
     }
   };
 
-  const handleExportPDF = () => {
-    window.print();
-  };
 
   if (!employee) {
     return <div className="p-6">Loading...</div>;
@@ -55,12 +52,7 @@ const EmployeeDetails = () => {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">{t('common.details')}</h1>
           <div className="space-x-2">
-            <button
-              onClick={handleExportPDF}
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-            >
-              Export PDF
-            </button>
+
             <button
               onClick={() => navigate('/employees')}
               className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded"

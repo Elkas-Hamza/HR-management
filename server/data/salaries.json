@@ -173,5 +173,12 @@
     "baseSalary": 4350,
     "bonus": 270,
     "month": "2026-01"
+  },
+  {
+    "id": 26,
+    "employeeId": 26,
+    "baseSalary": 7000,
+    "bonus": 1500,
+    "month": "2026-01"
   }
 ]

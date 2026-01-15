@@ -100,6 +100,62 @@
     "rejected": "مرفوض",
     "vacation": "إجازة",
     "sick": "مرضية",
+    "personal": "شخصية",
+    "duration": "المدة",
+    "days": "أيام",
+    "approve": "موافقة",
+    "reject": "رفض",
+    "allStatus": "جميع الحالات",
+    "allTypes": "جميع الأنواع"
+  },
+  "filters": {
+    "allDepartments": "جميع الأقسام",
+    "allStatus": "جميع الحالات",
+    "allTypes": "جميع الأنواع",
+    "selectDepartment": "اختر قسم",
+    "selectEmployee": "اختر موظف"
+  },
+  "status": {
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "pending": "قيد الانتظار",
+    "approved": "موافق عليه",
+    "rejected": "مرفوض",
+    "present": "حاضر",
+    "absent": "غائب",
+    "late": "متأخر",
+    "onLeave": "في إجازة"
+  },
+  "leaveTypes": {
+    "vacation": "إجازة",
+    "sick": "مرضية",
     "personal": "شخصية"
+  },
+  "messages": {
+    "loading": "جاري التحميل...",
+    "noData": "لا توجد بيانات متاحة",
+    "error": "حدث خطأ",
+    "success": "تمت العملية بنجاح",
+    "confirmDelete": "هل أنت متأكد أنك تريد حذف هذا العنصر؟",
+    "demoCredentials": "بيانات الاعتماد التجريبية"
+  },
+  "forms": {
+    "photoUrl": "رابط الصورة",
+    "preview": "معاينة",
+    "required": "مطلوب",
+    "optional": "اختياري"
+  },
+  "employeeDetails": {
+    "title": "تفاصيل الموظف",
+    "contactInformation": "معلومات الاتصال",
+    "employmentInformation": "معلومات التوظيف",
+    "salaryInformation": "معلومات الراتب",
+    "viewDetails": "عرض التفاصيل",
+    "editEmployee": "تعديل الموظف",
+    "deleteEmployee": "حذف الموظف",
+    "back": "رجوع",
+    "leaveHistory": "سجل الإجازات",
+    "attendanceHistory": "سجل الحضور",
+    "salaryHistory": "سجل الرواتب"
   }
 }

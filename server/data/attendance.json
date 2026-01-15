@@ -32,19 +32,25 @@
   {
     "employeeId": 3,
     "date": "2026-01-01",
-    "status": "Absent",
+    "status": "Present",
     "id": 7
   },
   {
-    "id": "8",
+    "id": 8,
     "employeeId": 26,
     "date": "2026-01-15",
-    "status": "Absent"
+    "status": "Late"
   },
   {
-    "id": "9",
+    "id": 9,
     "employeeId": 26,
     "date": "2026-01-13",
-    "status": "Late"
+    "status": "Present"
+  },
+  {
+    "id": 10,
+    "employeeId": 7,
+    "date": "2026-01-15",
+    "status": "Present"
   }
 ]

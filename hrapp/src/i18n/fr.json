@@ -100,6 +100,62 @@
     "rejected": "Rejeté",
     "vacation": "Vacances",
     "sick": "Maladie",
+    "personal": "Personnel",
+    "duration": "Durée",
+    "days": "jours",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "allStatus": "Tous les Statuts",
+    "allTypes": "Tous les Types"
+  },
+  "filters": {
+    "allDepartments": "Tous les Départements",
+    "allStatus": "Tous les Statuts",
+    "allTypes": "Tous les Types",
+    "selectDepartment": "Sélectionner un Département",
+    "selectEmployee": "Sélectionner un Employé"
+  },
+  "status": {
+    "active": "Actif",
+    "inactive": "Inactif",
+    "pending": "En Attente",
+    "approved": "Approuvé",
+    "rejected": "Rejeté",
+    "present": "Présent",
+    "absent": "Absent",
+    "late": "En Retard",
+    "onLeave": "En Congé"
+  },
+  "leaveTypes": {
+    "vacation": "Vacances",
+    "sick": "Maladie",
     "personal": "Personnel"
+  },
+  "messages": {
+    "loading": "Chargement...",
+    "noData": "Aucune donnée disponible",
+    "error": "Une erreur s'est produite",
+    "success": "Opération terminée avec succès",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet élément?",
+    "demoCredentials": "Identifiants de Démonstration"
+  },
+  "forms": {
+    "photoUrl": "URL de la Photo",
+    "preview": "Aperçu",
+    "required": "Requis",
+    "optional": "Optionnel"
+  },
+  "employeeDetails": {
+    "title": "Détails de l'Employé",
+    "contactInformation": "Informations de Contact",
+    "employmentInformation": "Informations d'Emploi",
+    "salaryInformation": "Informations Salariales",
+    "viewDetails": "Voir les Détails",
+    "editEmployee": "Modifier l'Employé",
+    "deleteEmployee": "Supprimer l'Employé",
+    "back": "Retour",
+    "leaveHistory": "Historique des Congés",
+    "attendanceHistory": "Historique de Présence",
+    "salaryHistory": "Historique des Salaires"
   }
 }

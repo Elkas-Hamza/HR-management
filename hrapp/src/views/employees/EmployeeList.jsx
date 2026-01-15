@@ -65,9 +65,7 @@ const EmployeeList = () => {
     }
   };
 
-  const handleExport = () => {
-    employeeService.exportToCSV(filteredEmployees);
-  };
+
 
   const getDepartmentName = (deptId) => {
     const dept = departments.find(d => d.id === deptId);
@@ -105,12 +103,7 @@ const EmployeeList = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">{t('employees.title')}</h1>
         <div className="space-x-2">
-          <button
-            onClick={handleExport}
-            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-          >
-            {t('common.export')}
-          </button>
+
           <button
             onClick={() => navigate('/employees/new')}
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"

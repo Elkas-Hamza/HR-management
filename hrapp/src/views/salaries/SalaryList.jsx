@@ -93,7 +93,6 @@ const SalaryList = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">{t('salaries.title')}</h1>
         <div className="space-x-2">
-          <button onClick={() => salaryService.exportToCSV()} className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">{t('common.export')}</button>
           <button onClick={handleAdd} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">{t('salaries.addSalary')}</button>
         </div>
       </div>

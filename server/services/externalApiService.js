@@ -19,7 +19,7 @@ class LocalDataService {
 
   async getById(filename, id) {
     const data = await this.load(filename);
-    return data.find(item => item.id === id) || null;
+    return data.find(item => item.id === parseInt(id)) || null;
   }
 
   async create(filename, newData) {
@@ -33,7 +33,7 @@ class LocalDataService {
 
   async update(filename, id, updatedData) {
     const data = await this.load(filename);
-    const index = data.findIndex(item => item.id === id);
+    const index = data.findIndex(item => item.id === parseInt(id));
     if (index === -1) return null;
     data[index] = { ...data[index], ...updatedData, id: data[index].id };
     await this.save(filename, data);
@@ -42,7 +42,7 @@ class LocalDataService {
 
   async delete(filename, id) {
     const data = await this.load(filename);
-    const filtered = data.filter(item => item.id !== id);
+    const filtered = data.filter(item => item.id !== parseInt(id));
     await this.save(filename, filtered);
     return { success: true };
   }
@@ -66,7 +66,7 @@ class LocalDataService {
   getSalaryById(id) { return this.getById('salaries.json', id); }
   async getSalariesByEmployeeId(employeeId) {
     const data = await this.getAll('salaries.json');
-    return data.filter(item => item.employeeId === employeeId);
+    return data.filter(item => item.employeeId === parseInt(employeeId));
   }
   createSalary(data) { return this.create('salaries.json', data); }
   updateSalary(id, data) { return this.update('salaries.json', id, data); }
@@ -77,7 +77,7 @@ class LocalDataService {
   getAttendanceById(id) { return this.getById('attendance.json', id); }
   async getAttendanceByEmployeeId(employeeId) {
     const data = await this.getAll('attendance.json');
-    return data.filter(item => item.employeeId === employeeId);
+    return data.filter(item => item.employeeId === parseInt(employeeId));
   }
   createAttendance(data) { return this.create('attendance.json', data); }
   updateAttendance(id, data) { return this.update('attendance.json', id, data); }
@@ -88,7 +88,7 @@ class LocalDataService {
   getLeaveById(id) { return this.getById('leaves.json', id); }
   async getLeavesByEmployeeId(employeeId) {
     const data = await this.getAll('leaves.json');
-    return data.filter(item => item.employeeId === employeeId);
+    return data.filter(item => item.employeeId === parseInt(employeeId));
   }
   createLeave(data) { return this.create('leaves.json', data); }
   updateLeave(id, data) { return this.update('leaves.json', id, data); }
