@@ -17,7 +17,6 @@ export const AuthProvider = ({ children }) => {
   });
 
   const login = (username, password) => {
-    // Simple authentication: admin/admin
     if (username === 'admin' && password === 'admin') {
       const userData = { username, role: 'admin' };
       setUser(userData);

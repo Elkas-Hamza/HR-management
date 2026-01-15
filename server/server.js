@@ -5,11 +5,9 @@ const path = require('path');
 const externalApiService = require('./services/externalApiService');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 
 console.log(' Server starting...');
-console.log(` Server directory: ${__dirname}`);
-console.log(` Data directory: ${path.resolve(__dirname, 'data')}`);
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -38,8 +36,7 @@ app.get('/', (req, res) => {
       employees: '/api/employees',
       attendance: '/api/attendance',
       leaves: '/api/leaves',
-      salaries: '/api/salaries',
-      health: '/api/health'
+      salaries: '/api/salaries'
     }
   });
 });
@@ -262,7 +259,6 @@ app.use((req, res) => {
     message: `Route ${req.method} ${req.url} not found`,
     availableEndpoints: {
       root: '/',
-      health: '/api/health',
       departments: '/api/departments',
       employees: '/api/employees',
       attendance: '/api/attendance',
@@ -282,12 +278,8 @@ app.use((error, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`\n HR App API Server running on http://localhost:${PORT}`);
-  console.log(` Working directory: ${process.cwd()}`);
-  console.log(` Server location: ${__dirname}`);
-  console.log(` Using local data files (portable mode)`);
   console.log(`\n Available endpoints:`);
   console.log(`   GET  http://localhost:${PORT}/              - API Info`);
-  console.log(`   GET  http://localhost:${PORT}/api/health    - Health Check`);
   console.log(`   CRUD http://localhost:${PORT}/api/departments`);
   console.log(`   CRUD http://localhost:${PORT}/api/employees`);
   console.log(`   CRUD http://localhost:${PORT}/api/attendance`);
