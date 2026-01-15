@@ -1,0 +1,65 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Employé {
+  - id: int
+  - prénom: string
+  - nom: string
+  - email: string
+  - téléphone: string
+  - départementId: int
+  - dateEmbauche: date
+  - statut: string
+  - photo: string
+  + obtenirNomComplet(): string
+  + estActif(): boolean
+  + verJSON(): object
+}
+
+class Département {
+  - id: int
+  - nom: string
+  - gestionnaire: string
+  - description: string
+  + verJSON(): object
+}
+
+class Présence {
+  - id: int
+  - employéId: int
+  - date: date
+  - statut: string
+  + estPrésent(): boolean
+  + verJSON(): object
+}
+
+class DemandeCongé {
+  - id: int
+  - employéId: int
+  - dateDebut: date
+  - dateFin: date
+  - type: string
+  - statut: string
+  - raison: string
+  + obtenirDurée(): int
+  + estEnAttente(): boolean
+  + verJSON(): object
+}
+
+class Salaire {
+  - id: int
+  - employéId: int
+  - salaireBase: float
+  - prime: float
+  - mois: string
+  + obtenirSalaireTotal(): float
+  + verJSON(): object
+}
+
+' Relations
+Employé "*" --> "1" Département : appartient à
+Présence "*" --> "1" Employé : suivi pour
+DemandeCongé "*" --> "1" Employé : demandé par
+Salaire "*" --> "1" Employé : payé à
+
+@enduml
